@@ -1,3 +1,5 @@
+import java.text.SimpleDateFormat
+
 apply plugin: 'maven'
 apply plugin: 'java'
 apply plugin: 'eclipse'
@@ -6,8 +8,8 @@ repositories {
     mavenCentral()
 }
 
-group = 'optifine'
-archivesBaseName = 'launchwrapper-of'
+group = 'com.hexmory.virtualclient'
+archivesBaseName = 'launchwrapper'
 version = '2.2'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -18,7 +20,7 @@ dependencies {
 }
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
@@ -32,7 +34,7 @@ jar {
         attributes(
             'Implementation-Version' : version,
             'Implementation-Vendor' : "OptiFine",
-            'Build-Timestamp': new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
+            'Build-Timestamp': new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(new Date()),
             'Build-Jdk'      : "${System.properties['java.version']} (${System.properties['java.vendor']} ${System.properties['java.vm.version']})",
             'Created-By'     : "Gradle ${gradle.gradleVersion}"
         )
