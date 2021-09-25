@@ -21,7 +21,7 @@ import java.util.Set;
 import org.apache.logging.log4j.Level;
 
 public class Launch {
-    private static final String DEFAULT_TWEAK = "net.minecraft.launchwrapper.VanillaTweaker";
+
     public static File minecraftHome;
     public static File assetsDir;
     public static Map<String,Object> blackboard;
@@ -39,7 +39,7 @@ public class Launch {
         } else {
             classLoader = new LaunchClassLoader(getURLs());
         }
-        blackboard = new HashMap<String,Object>();
+        blackboard = new HashMap<>();
         Thread.currentThread().setContextClassLoader(classLoader);
     }
 
@@ -68,7 +68,7 @@ public class Launch {
         final OptionSpec<String> profileOption = parser.accepts("version", "The version we launched with").withRequiredArg();
         final OptionSpec<File> gameDirOption = parser.accepts("gameDir", "Alternative game directory").withRequiredArg().ofType(File.class);
         final OptionSpec<File> assetsDirOption = parser.accepts("assetsDir", "Assets directory").withRequiredArg().ofType(File.class);
-        final OptionSpec<String> tweakClassOption = parser.accepts("tweakClass", "Tweak class(es) to load").withRequiredArg().defaultsTo(DEFAULT_TWEAK);
+        final OptionSpec<String> tweakClassOption = parser.accepts("tweakClass", "Tweak class(es) to load").withRequiredArg().required();
         final OptionSpec<String> nonOption = parser.nonOptions();
 
         final OptionSet options = parser.parse(args);
@@ -153,7 +153,7 @@ public class Launch {
             // Finally we turn to the primary tweaker, and let it tell us where to go to launch
             final String launchTarget = primaryTweaker.getLaunchTarget();
             final Class<?> clazz = Class.forName(launchTarget, false, classLoader);
-            final Method mainMethod = clazz.getMethod("main", new Class[]{String[].class});
+            final Method mainMethod = clazz.getMethod("main", String[].class);
 
             LogWrapper.info("Launching wrapped minecraft {%s}", launchTarget);
             mainMethod.invoke(null, (Object) argumentList.toArray(new String[argumentList.size()]));
