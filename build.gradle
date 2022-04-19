@@ -9,7 +9,7 @@ repositories {
 
 group = 'eu.teamvirtual'
 archivesBaseName = 'launchwrapper'
-version = '2.2'
+version = '2.3'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
@@ -42,18 +42,8 @@ publishing {
     }
     repositories {
         maven {
-            //Maybe there is a better solution to this but it will do for now.
-            if(ENV.MAVEN_PASSWORD) {
-                credentials {
-                    username ENV.MAVEN_USERNAME
-                    password ENV.MAVEN_PASSWORD
-                }
-            } else {
-                credentials {
-                    username "$teamvirtual_maven_user"
-                    password "$teamvirtual_maven_pw"
-                }
-            }
+            name = "virtualclientRepository"
+            credentials(PasswordCredentials.class)
             url = "https://maven.teamvirtual.eu/repository/maven-releases/"
         }
     }
