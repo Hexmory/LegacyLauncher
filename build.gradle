@@ -44,7 +44,7 @@ publishing {
         maven {
             name = "virtualclientRepository"
             credentials(PasswordCredentials.class)
-            url = "https://maven.teamvirtual.eu/repository/maven-releases/"
+            url = "https://repo.teamvirtual.eu/artifactory/virtualclient-public/"
         }
     }
 }
